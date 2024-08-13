@@ -1,0 +1,2688 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 1,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Hum"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "humidity"
+              },
+              {
+                "id": "min",
+                "value": 10
+              },
+              {
+                "id": "max",
+                "value": 90
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 40
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 60
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Temp"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "celsius"
+              },
+              {
+                "id": "min",
+                "value": 22
+              },
+              {
+                "id": "max",
+                "value": 32
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 26
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 28
+                    },
+                    {
+                      "color": "red",
+                      "value": 30
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 2,
+        "x": 0,
+        "y": 0
+      },
+      "id": 30,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Living\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Temp\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: mean, createEmpty: true)\n  |> yield(name: \"Current Temp\")",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Living\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Hum\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: mean, createEmpty: false)\n  |> yield(name: \"Current Hum\")\n  \n\n",
+          "refId": "B"
+        }
+      ],
+      "title": "Living",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Hum"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "humidity"
+              },
+              {
+                "id": "min",
+                "value": 10
+              },
+              {
+                "id": "max",
+                "value": 90
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 40
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 60
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Temp"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "celsius"
+              },
+              {
+                "id": "min",
+                "value": 22
+              },
+              {
+                "id": "max",
+                "value": 32
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 26
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 28
+                    },
+                    {
+                      "color": "red",
+                      "value": 30
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 2,
+        "x": 2,
+        "y": 0
+      },
+      "id": 31,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Bedroom\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Temp\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: mean, createEmpty: true)\n  |> yield(name: \"Current Temp\")",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Bedroom\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Hum\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: mean, createEmpty: false)\n  |> yield(name: \"Current Hum\")\n  \n\n",
+          "refId": "B"
+        }
+      ],
+      "title": "Bedroom",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Hum"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "humidity"
+              },
+              {
+                "id": "min",
+                "value": 10
+              },
+              {
+                "id": "max",
+                "value": 90
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 40
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 60
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Temp"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "celsius"
+              },
+              {
+                "id": "min",
+                "value": 22
+              },
+              {
+                "id": "max",
+                "value": 32
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 26
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 28
+                    },
+                    {
+                      "color": "red",
+                      "value": 30
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 2,
+        "x": 4,
+        "y": 0
+      },
+      "id": 32,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Workroom\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Temp\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: mean, createEmpty: true)\n  |> yield(name: \"Current Temp\")",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Workroom\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Hum\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: mean, createEmpty: false)\n  |> yield(name: \"Current Hum\")\n  \n\n",
+          "refId": "B"
+        }
+      ],
+      "title": "Workroom",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Hum"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "humidity"
+              },
+              {
+                "id": "min",
+                "value": 10
+              },
+              {
+                "id": "max",
+                "value": 90
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 40
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 60
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Temp"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "celsius"
+              },
+              {
+                "id": "min",
+                "value": 22
+              },
+              {
+                "id": "max",
+                "value": 32
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 26
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 28
+                    },
+                    {
+                      "color": "red",
+                      "value": 30
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 2,
+        "x": 6,
+        "y": 0
+      },
+      "id": 135,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Dining\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Temp\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: mean, createEmpty: true)\n  |> yield(name: \"Current Temp\")",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Dining\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Hum\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: mean, createEmpty: false)\n  |> yield(name: \"Current Hum\")\n  \n\n",
+          "refId": "B"
+        }
+      ],
+      "title": "Dining",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": true,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 40,
+            "axisSoftMin": 20,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1.5,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "id": 58,
+      "interval": "1m",
+      "options": {
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Living\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Temperature (Living)\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"Temperature (Living)\")",
+          "refId": "Current Temp"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Bedroom\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Temperature (Bedroom)\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"Temperature (Bedroom)\")",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Workroom\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Temperature (Workroom)\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"Temperature (Workroom)\")",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Dining\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Temperature (Dining)\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"Temperature (Dining)\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Temperature",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": true,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 90,
+            "axisSoftMin": 30,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 59,
+      "interval": "1m",
+      "options": {
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Living\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Humidity (Living)\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"Humidity (Living)\")\n  \n\n",
+          "refId": "Current Hum"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Bedroom\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Humidity (Bedroom)\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"Humidity (Bedroom)\")\n  \n\n",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Workroom\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Humidity (Workroom)\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"Humidity (Workroom)\")\n  \n\n",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter Dining\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Humidity (Dining)\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"Humidity (Dining)\")\n  \n\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Humidity",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 54,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "dashed+area"
+            }
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 24
+              },
+              {
+                "color": "red",
+                "value": 30
+              }
+            ]
+          },
+          "unit": "h"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 9,
+        "x": 0,
+        "y": 11
+      },
+      "id": 84,
+      "interval": "1m",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.95,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "_time",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -56d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC Living\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"), createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> aggregateWindow(every: 1w, fn: mean, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: r._value}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Room: Living)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Room: Living)\"])\n  |> yield(name: \"Uptime (Room: Living)\")",
+          "refId": "Target Temp (MODE: Dehumidification)"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -56d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC Bedroom\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"), createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> aggregateWindow(every: 1w, fn: mean, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: r._value}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Room: Bedroom)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Room: Bedroom)\"])\n  |> yield(name: \"Uptime (Room: Bedroom)\")",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -56d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC Workroom\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"), createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> aggregateWindow(every: 1w, fn: mean, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: r._value}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Room: Workroom)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Room: Workroom)\"])\n  |> yield(name: \"Uptime (Room: Workroom)\")",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -56d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC Dining\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"), createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> aggregateWindow(every: 1w, fn: mean, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: r._value}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Room: Dining)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Room: Dining)\"])\n  |> yield(name: \"Uptime (Room: Dining)\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Daily Uptime (Weekly Avg)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 54,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "dashed+area"
+            }
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 24
+              },
+              {
+                "color": "red",
+                "value": 30
+              }
+            ]
+          },
+          "unit": "h"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 15,
+        "x": 9,
+        "y": 11
+      },
+      "id": 57,
+      "interval": "1m",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.95,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "_time",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -14d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC Living\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Room: Living)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Room: Living)\"])\n  |> yield(name: \"Uptime (Room: Living)\")",
+          "refId": "Target Temp (MODE: Dehumidification)"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -14d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC Bedroom\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Room: Bedroom)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Room: Bedroom)\"])\n  |> yield(name: \"Uptime (Room: Bedroom)\")",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -14d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC Workroom\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Room: Workroom)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Room: Workroom)\"])\n  |> yield(name: \"Uptime (Room: Workroom)\")",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -14d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC Dining\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Room: Dining)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Room: Dining)\"])\n  |> yield(name: \"Uptime (Room: Dining)\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Daily Uptime",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 54,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "dashed+area"
+            }
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 24
+              },
+              {
+                "color": "red",
+                "value": 30
+              }
+            ]
+          },
+          "unit": "h"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Uptime (Mode: Dehumidification)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Uptime (Mode: Cooling/Silent)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Uptime (Mode: Cooling/Auto)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 9,
+        "x": 0,
+        "y": 22
+      },
+      "id": 109,
+      "interval": "1m",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.95,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "_time",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -56d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"ServiceName\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"ServiceName\", \"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active == 0)\n  |> map(fn: (r) => ({ _room: r.ServiceName, _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_room\", \"_time\", \"_value\"])\n  |> group(columns: [\"_room\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"), createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> aggregateWindow(every: 1w, fn: mean, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: r._value}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Mode: Dehumidification)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Mode: Dehumidification)\"])\n  |> yield(name: \"Uptime (Mode: Dehumidification)\")",
+          "refId": "Target Temp (MODE: Dehumidification)"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -56d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or r[\"_field\"] == \"RotationSpeed\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"ServiceName\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"ServiceName\", \"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active > 0 and r.Fan_RotationSpeed < 10)\n  |> map(fn: (r) => ({ _room: r.ServiceName, _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_room\", \"_time\", \"_value\"])\n  |> group(columns: [\"_room\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"), createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> aggregateWindow(every: 1w, fn: mean, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: r._value}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Mode: Cooling/Silent)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Mode: Cooling/Silent)\"])\n  |> yield(name: \"Uptime (Mode: Cooling/Silent)\")",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -56d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or r[\"_field\"] == \"RotationSpeed\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"ServiceName\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"ServiceName\", \"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active > 0 and r.Fan_RotationSpeed >= 10)\n  |> map(fn: (r) => ({ _room: r.ServiceName, _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_room\", \"_time\", \"_value\"])\n  |> group(columns: [\"_room\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"), createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> aggregateWindow(every: 1w, fn: mean, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: r._value}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Mode: Cooling/Auto)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Mode: Cooling/Auto)\"])\n  |> yield(name: \"Uptime (Mode: Cooling/Auto)\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Daily Uptime (Weekly Avg)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 54,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "dashed+area"
+            }
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 24
+              },
+              {
+                "color": "red",
+                "value": 30
+              }
+            ]
+          },
+          "unit": "h"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Uptime (Mode: Dehumidification)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Uptime (Mode: Cooling/Silent)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Uptime (Mode: Cooling/Auto)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 15,
+        "x": 9,
+        "y": 22
+      },
+      "id": 110,
+      "interval": "1m",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.95,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "_time",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -14d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"ServiceName\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"ServiceName\", \"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active == 0)\n  |> map(fn: (r) => ({ _room: r.ServiceName, _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_room\", \"_time\", \"_value\"])\n  |> group(columns: [\"_room\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Mode: Dehumidification)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Mode: Dehumidification)\"])\n  |> yield(name: \"Uptime (Mode: Dehumidification)\")",
+          "refId": "Target Temp (MODE: Dehumidification)"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -14d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or r[\"_field\"] == \"RotationSpeed\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"ServiceName\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"ServiceName\", \"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active > 0 and r.Fan_RotationSpeed < 10)\n  |> map(fn: (r) => ({ _room: r.ServiceName, _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_room\", \"_time\", \"_value\"])\n  |> group(columns: [\"_room\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Mode: Cooling/Silent)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Mode: Cooling/Silent)\"])\n  |> yield(name: \"Uptime (Mode: Cooling/Silent)\")",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -14d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or r[\"_field\"] == \"RotationSpeed\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"ServiceName\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"ServiceName\", \"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active > 0 and r.Fan_RotationSpeed >= 10)\n  |> map(fn: (r) => ({ _room: r.ServiceName, _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_room\", \"_time\", \"_value\"])\n  |> group(columns: [\"_room\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (Mode: Cooling/Auto)\"})\n  |> keep(columns: [\"_time\", \"Uptime (Mode: Cooling/Auto)\"])\n  |> yield(name: \"Uptime (Mode: Cooling/Auto)\")",
+          "refId": "B"
+        }
+      ],
+      "title": "Daily Uptime",
+      "type": "barchart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "id": 2,
+      "panels": [],
+      "repeat": "Room",
+      "repeatDirection": "h",
+      "title": "${Room}",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Hum"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "humidity"
+              },
+              {
+                "id": "min",
+                "value": 10
+              },
+              {
+                "id": "max",
+                "value": 90
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 40
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 60
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Temp"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "celsius"
+              },
+              {
+                "id": "min",
+                "value": 22
+              },
+              {
+                "id": "max",
+                "value": 32
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 26
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 28
+                    },
+                    {
+                      "color": "red",
+                      "value": 30
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 3,
+        "x": 0,
+        "y": 34
+      },
+      "id": 4,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Temp\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"Current Temp\")",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Hum\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"Current Hum\")\n  \n\n",
+          "refId": "B"
+        }
+      ],
+      "title": "Panel Title",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": true,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 32,
+            "axisSoftMin": 20,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1.5,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Temp"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.spanNulls",
+                "value": true
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Rotation Speed (MODE: Cooling)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.spanNulls",
+                "value": false
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.axisSoftMin",
+                "value": 0
+              },
+              {
+                "id": "custom.axisSoftMax",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Rotation Speed (MODE: Dehumidification)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.spanNulls",
+                "value": false
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.axisSoftMin",
+                "value": 0
+              },
+              {
+                "id": "custom.axisSoftMax",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Temp (AC)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#585858",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.spanNulls",
+                "value": true
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 8,
+        "x": 3,
+        "y": 34
+      },
+      "id": 1,
+      "interval": "1m",
+      "options": {
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Temp\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"Current Temp\")",
+          "refId": "Current Temp"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Temp (AC)\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"Current Temp (AC)\")",
+          "refId": "Current Temp (AC)"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nfrom(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"CoolingThresholdTemperature\" or r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or r[\"_field\"] == \"RotationSpeed\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: r.Fan_RotationSpeed }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Rotation Speed (MODE: Cooling)\"})\n  |> keep(columns: [\"_time\", \"Rotation Speed (MODE: Cooling)\"])\n  |> yield(name: \"Rotation Speed (MODE: Cooling)\")",
+          "refId": "Target Temp (MODE: Cooling)"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nfrom(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"CoolingThresholdTemperature\" or r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or r[\"_field\"] == \"RotationSpeed\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active == 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: r.Fan_RotationSpeed }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Rotation Speed (MODE: Dehumidification)\"})\n  |> keep(columns: [\"_time\", \"Rotation Speed (MODE: Dehumidification)\"])\n  |> yield(name: \"Rotation Speed (MODE: Dehumidification)\")",
+          "refId": "Target Temp (MODE: Dehumidification)"
+        }
+      ],
+      "title": "Temperature",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": true,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 80,
+            "axisSoftMin": 30,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1.5,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Hum"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.spanNulls",
+                "value": true
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ratation Speed (MODE: Cooling)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.spanNulls",
+                "value": false
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.axisSoftMin",
+                "value": 0
+              },
+              {
+                "id": "custom.axisSoftMax",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ratation Speed (MODE: Dehumidification)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.spanNulls",
+                "value": false
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.axisSoftMin",
+                "value": 0
+              },
+              {
+                "id": "custom.axisSoftMax",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Hum (AC)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#808080",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.spanNulls",
+                "value": true
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 8,
+        "x": 11,
+        "y": 34
+      },
+      "id": 3,
+      "interval": "1m",
+      "options": {
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Hum\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"Current Hum\")\n  \n\n",
+          "refId": "Current Hum"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Hum (AC)\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"Current Hum (AC)\")\n  ",
+          "refId": "Current Hum (AC)"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nfrom(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"CoolingThresholdTemperature\" or r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or r[\"_field\"] == \"RotationSpeed\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: r.Fan_RotationSpeed }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Ratation Speed (MODE: Cooling)\"})\n  |> keep(columns: [\"_time\", \"Ratation Speed (MODE: Cooling)\"])\n  |> yield(name: \"Ratation Speed (MODE: Cooling)\")",
+          "refId": "Ratation Speed (MODE: Cooling)"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nfrom(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"CoolingThresholdTemperature\" or r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or r[\"_field\"] == \"RotationSpeed\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active == 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: r.Fan_RotationSpeed }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Ratation Speed (MODE: Dehumidification)\"})\n  |> keep(columns: [\"_time\", \"Ratation Speed (MODE: Dehumidification)\"])\n  |> yield(name: \"Ratation Speed (MODE: Dehumidification)\")",
+          "refId": "Ratation Speed (MODE: Dehumidification)"
+        }
+      ],
+      "title": "Humidity",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "pointSize": {
+              "fixed": 5
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "show": "points"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "_humidity"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "humidity"
+              },
+              {
+                "id": "min"
+              },
+              {
+                "id": "max"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "Humidity (%H)"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "_temperature"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "celsius"
+              },
+              {
+                "id": "min"
+              },
+              {
+                "id": "max"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "Temperature (°C)"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "C"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 5,
+        "x": 19,
+        "y": 34
+      },
+      "id": 5,
+      "options": {
+        "dims": {
+          "exclude": [
+            "_ac_mode"
+          ],
+          "frame": 0
+        },
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "series": [
+          {
+            "x": "_temperature",
+            "y": "_humidity"
+          },
+          {
+            "frame": 1,
+            "x": "_temperature",
+            "y": "_humidity"
+          },
+          {
+            "frame": 2,
+            "x": "_temperature",
+            "y": "_humidity"
+          }
+        ],
+        "seriesMapping": "manual",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\" or r[\"_measurement\"] == \"HumiditySensor\" or r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\" or r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or (r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\" and r[\"_field\"] == \"CurrentTemperature\") or (r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\" and r[\"_field\"] == \"CurrentRelativeHumidity\"))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> map(fn: (r) => ({ _time: r._time, _ac_mode: r.Fan_On + r.HeaterCooler_Active, _temperature: r.TemperatureSensor_CurrentTemperature, _humidity: r.HumiditySensor_CurrentRelativeHumidity }))\n  |> filter(fn: (r) => r._ac_mode == 0)",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\" or r[\"_measurement\"] == \"HumiditySensor\" or r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\" or r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or (r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\" and r[\"_field\"] == \"CurrentTemperature\") or (r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\" and r[\"_field\"] == \"CurrentRelativeHumidity\"))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> map(fn: (r) => ({ _time: r._time, _ac_mode: r.Fan_On + r.HeaterCooler_Active, _temperature: r.TemperatureSensor_CurrentTemperature, _humidity: r.HumiditySensor_CurrentRelativeHumidity }))\n  |> filter(fn: (r) => r._ac_mode == 1)",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\" or r[\"_measurement\"] == \"HumiditySensor\" or r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\" or r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\" or (r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\" and r[\"_field\"] == \"CurrentTemperature\") or (r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\" and r[\"_field\"] == \"CurrentRelativeHumidity\"))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> map(fn: (r) => ({ _time: r._time, _ac_mode: r.Fan_On + r.HeaterCooler_Active, _temperature: r.TemperatureSensor_CurrentTemperature, _humidity: r.HumiditySensor_CurrentRelativeHumidity }))\n  |> filter(fn: (r) => r._ac_mode == 2)",
+          "refId": "C"
+        }
+      ],
+      "title": "Temperature-Humidity Chart",
+      "type": "xychart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "h"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Uptime (MODE: Cooling)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Uptime (MODE: Dehumidification)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 0,
+        "y": 46
+      },
+      "id": 29,
+      "interval": "1m",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "_time",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -14d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active == 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: true)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (MODE: Dehumidification)\"})\n  |> keep(columns: [\"_time\", \"Uptime (MODE: Dehumidification)\"])\n  |> yield(name: \"Uptime (MODE: Dehumidification)\")",
+          "refId": "Target Temp (MODE: Dehumidification)"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "import \"math\"\nimport \"timezone\"\n\nfrom(bucket: \"homebridge\")\n  |> range(start: -14d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HeaterCooler\" or r[\"_measurement\"] == \"Fan\")\n  |> filter(fn: (r) => r[\"ServiceName\"] == \"Daikin AC ${Room}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Active\" or r[\"_field\"] == \"On\")\n  |> keep(columns: [\"_time\", \"_measurement\", \"_field\", \"_value\"])\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_measurement\", \"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.Fan_On > 0 and r.HeaterCooler_Active > 0)\n  |> map(fn: (r) => ({ _time: r._time, _value: 1 }))\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: 5m, fn: max, createEmpty: true)\n  |> map(fn: (r) => ({_time: r._time, _value: r._value * 5}))\n  |> aggregateWindow(every: 1d, fn: sum, location: timezone.location(name: \"Asia/Singapore\"))\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r._value) / 60.0}))\n  |> timeShift(duration: 8h)\n  |> timeShift(duration: -1ms)\n  |> truncateTimeColumn(unit: 1d)\n  |> timeShift(duration: 16h)\n  |> rename(columns: {\"_time\": \"_time\", \"_value\": \"Uptime (MODE: Cooling)\"})\n  |> keep(columns: [\"_time\", \"Uptime (MODE: Cooling)\"])\n  |> yield(name: \"Uptime (MODE: Cooling)\")",
+          "refId": "Target Temp (MODE: Cooling)"
+        }
+      ],
+      "title": "Daily Uptime",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 30,
+          "min": 23,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 6,
+        "x": 12,
+        "y": 46
+      },
+      "id": 6,
+      "options": {
+        "bucketSize": 0.2,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TemperatureSensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Temp\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"Current Temp\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Temperature Histogram",
+      "type": "histogram"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddnp6zjf1uha8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 70,
+          "min": 40,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "humidity"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 6,
+        "x": 18,
+        "y": 46
+      },
+      "id": 7,
+      "options": {
+        "bucketSize": 1,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddnp6zjf1uha8a"
+          },
+          "hide": false,
+          "query": "from(bucket: \"homebridge\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"HumiditySensor\")\n  |> filter(fn: (r) => r[\"ServiceName\"]  == \"SwitchBot Meter ${Room}\")\n  |> map(fn: (r) => ({ _time: r._time, _measurement: \"Current Hum\", _value: r._value }))\n  |> keep(columns: [\"_time\", \"_measurement\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"Current Hum\")\n  \n\n",
+          "refId": "B"
+        }
+      ],
+      "title": "Humidity Histogram",
+      "type": "histogram"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "hide": 1,
+        "includeAll": true,
+        "label": "Room",
+        "multi": true,
+        "name": "Room",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "Living",
+            "value": "Living"
+          },
+          {
+            "selected": false,
+            "text": "Bedroom",
+            "value": "Bedroom"
+          },
+          {
+            "selected": false,
+            "text": "Workroom",
+            "value": "Workroom"
+          },
+          {
+            "selected": false,
+            "text": "Dining",
+            "value": "Dining"
+          }
+        ],
+        "query": "Living, Bedroom, Workroom, Dining",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-2d",
+    "to": "now"
+  },
+  "timeRangeUpdatedDuringEditOrView": false,
+  "timepicker": {
+    "nowDelay": ""
+  },
+  "timezone": "browser",
+  "title": "Smart Home",
+  "uid": "adnp7y3dlymm8a",
+  "version": 58,
+  "weekStart": ""
+}
